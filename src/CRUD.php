@@ -10,14 +10,14 @@ class CRUD
     protected $instance_url;
     protected $access_token;
 
-    public function __construct()
+    public function __construct($instance_url = null, $access_token = null)
     {
-        if (!isset($_SESSION) and !isset($_SESSION['salesforce'])) {
+        if (empty($instance_url) && empty($access_token) && !isset($_SESSION) and !isset($_SESSION['salesforce'])) {
             throw new SalesforceException('Access Denied', 403);
         }
 
-        $this->instance_url = $_SESSION['salesforce']['instance_url'];
-        $this->access_token = $_SESSION['salesforce']['access_token'];
+        $this->instance_url = $instance_url ?? $_SESSION['salesforce']['instance_url'];
+        $this->access_token = $access_token ?? $_SESSION['salesforce']['access_token'];
     }
 
     public function query($query)
