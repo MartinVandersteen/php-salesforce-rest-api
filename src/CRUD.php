@@ -9,8 +9,9 @@ class CRUD
 {
     protected $instance_url;
     protected $access_token;
+    protected $refresh_token;
 
-    public function __construct($instance_url = null, $access_token = null)
+    public function __construct($instance_url = null, $access_token = null, $refresh_token = null, $client_id = null, $client_secret = null)
     {
         if (empty($instance_url) && empty($access_token) && !isset($_SESSION) and !isset($_SESSION['salesforce'])) {
             throw new SalesforceException('Access Denied', 403);
@@ -18,6 +19,24 @@ class CRUD
 
         $this->instance_url = $instance_url ?? $_SESSION['salesforce']['instance_url'];
         $this->access_token = $access_token ?? $_SESSION['salesforce']['access_token'];
+        
+        if($refresh_token && $this->instance_url && $client_id && $client_secret) {
+            $url = 'https://'.$this->instance_url.'/services/oauth2/token';
+             $client = new Client();
+             $request = $client->request('POST', $url, [
+                'query' => [
+                    'grant_type' => 'refresh_token',
+                    'client_id'  => $client_id,
+                    'client_secret' => $client_secret,
+                    'refresh_token' => $this->refresh_token
+                ]
+            ]);
+            
+            if($request->getStatusCode(200)) {
+                $this->access_token = json_decode($request->getBody(), true)['access_token'];
+                $this->instance_url = json_decode($request->getBody(), true)['instance_url'];
+            }
+        }
     }
 
     public function query($query)
