@@ -28,7 +28,7 @@ class CRUD
                     'grant_type' => 'refresh_token',
                     'client_id'  => $client_id,
                     'client_secret' => $client_secret,
-                    'refresh_token' => $this->refresh_token
+                    'refresh_token' => $refresh_token
                 ]
             ]);
             
