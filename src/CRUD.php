@@ -21,7 +21,7 @@ class CRUD
         $this->access_token = $access_token ?? $_SESSION['salesforce']['access_token'];
         
         if($refresh_token && $this->instance_url && $client_id && $client_secret) {
-            $url = 'https://'.$this->instance_url.'/services/oauth2/token';
+            $url = $this->instance_url.'/services/oauth2/token';
              $client = new Client();
              $request = $client->request('POST', $url, [
                 'query' => [
