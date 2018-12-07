@@ -126,7 +126,7 @@ class CRUD
 
         $status = $request->getStatusCode();
 
-        if ($status != 204) {
+        if (($status < 200) || ($status >= 299)) {
             throw new SalesforceException(
                 "Error: call to URL {$url} failed with status {$status}, response: {$request->getReasonPhrase()}"
             );
