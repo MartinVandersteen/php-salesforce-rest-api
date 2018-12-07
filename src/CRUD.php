@@ -109,6 +109,31 @@ class CRUD
 
         return $status;
     }
+    
+    public function massUpdate(array $data)
+    {
+        $url = "{$this->instance_url}/services/data/v39.0/composite/sobjects";
+
+        $client = new Client();
+
+        $request = $client->request('PATCH', $url, [
+            'headers' => [
+                'Authorization' => "OAuth $this->access_token",
+                'Content-type' => 'application/json'
+            ],
+            'json' => $data
+        ]);
+
+        $status = $request->getStatusCode();
+
+        if ($status != 204) {
+            throw new SalesforceException(
+                "Error: call to URL {$url} failed with status {$status}, response: {$request->getReasonPhrase()}"
+            );
+        }
+
+        return $status;
+    }
 
     public function upsert($object, $field, $id, array $data)
     {
