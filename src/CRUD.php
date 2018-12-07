@@ -162,7 +162,7 @@ class CRUD
 
     public function delete($object, $id)
     {
-        $url = "{$this->instance_url}/services/data/v39.0/sobjects/{$object}/{$id}";
+        $url = "{$this->instance_url}/services/data/v42.0/sobjects/{$object}/{$id}";
 
         $client = new Client();
         $request = $client->request('DELETE', $url, [
