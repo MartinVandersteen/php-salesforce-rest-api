@@ -3,7 +3,7 @@
 namespace bjsmasth\Salesforce;
 
 use GuzzleHttp\Client;
-use Exception\Salesforce as SalesforceException;
+use bjsmasth\Salesforce\Exception\Salesforce as SalesforceException;
 
 class CRUD
 {
